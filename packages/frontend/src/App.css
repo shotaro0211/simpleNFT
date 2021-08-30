@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  height: 1200px;
 }
 
 .App-logo {
@@ -35,4 +36,98 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+.Top {
+  height: 1200px;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url('background.jpg');
+}
+
+.Title {
+  font-size: 60px;
+  font-weight: 700;
+  color: white;
+  text-align: left;
+  padding: 100px;
+  font-family: serif;
+}
+
+.ButtonContainer {
+  text-align: right;
+  padding-right: 200px;
+  padding-top: 200px;
+}
+
+.Button {
+  width: 200px;
+  height: 70px;
+  font-size: 20px;
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  outline: none;
+  background-color: rgba(0,172,237,0.3);
+  border-radius: 2px;
+  box-sizing: border-box;
+  color: #fff;
+  font-weight: bold;
+  padding: 14px 20px;
+  cursor: pointer;
+}
+
+.DescriptionContainer {
+  font-size: 20px;
+  color: white;
+  font-weight: 600;
+  text-align: right;
+  padding-left: 870px;
+}
+
+.Description {
+  text-align: left !important;
+}
+
+.TitleMoney {
+  padding-left: 400px;
+  font-size: 40px;
+}
+
+.Select {
+  padding-top: 70px;
+  font-size: 20px;
+  font-weight: 800;
+  padding-right: 650px;
+  color: black;
+  text-align: right;
+}
+
+.SelectContainer {
+  text-align: right;
+}
+.SelectButton {
+  margin-left: 50px;
+  width: 200px;
+  height: 40px;
+  font-size: 20px;
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  outline: none;
+  background-color: green;
+  border-radius: 2px;
+  box-sizing: border-box;
+  color: #fff;
+  font-weight: bold;
+  padding: 4px 20px;
+  cursor: pointer;
+}
+
+.Modal {
+  height: 400px;
+  margin-top: 200px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-image: url('background2.jpg');
 }
