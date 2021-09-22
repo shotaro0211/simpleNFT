@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
+<<<<<<< HEAD
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
@@ -237,4 +238,14 @@ library Base64 {
 
         return string(result);
     }
+=======
+import "hardhat/console.sol";
+import "@openzeppelin/contracts/token/ERC721/presets/ERC721PresetMinterPauserAutoId.sol";
+contract NFT is ERC721PresetMinterPauserAutoId {
+  constructor() ERC721PresetMinterPauserAutoId("Shibusawa", "SBW", "http://localhost:3000/") {}
+
+  function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+     return string(abi.encodePacked(super.tokenURI(tokenId),".json"));
+  }
+>>>>>>> d2657b3adff44312bafbd31d0adfec1e7a17e280
 }
