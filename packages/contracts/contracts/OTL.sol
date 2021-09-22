@@ -1,4 +1,3 @@
-// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
@@ -8,136 +7,91 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 //// This is a tribute to the original Loot.
-contract NFT is ERC721Enumerable, ReentrancyGuard, Ownable {
-
-    string[] private weapons = [
-        "Punch",
-        "Scratch",
-        "Jump Punch",
-        "Jump Scratch",
-        "Bite",
-        "Bite & Scratch",
-        "Bite & Punch",
-        "Jump Punch & Bite",
-        "Jump Scratch & Bite",
-        "Shake a tail"
-    ];
+contract OTL is ERC721Enumerable, ReentrancyGuard, Ownable {
     
-    string[] private bodyArmor = [
-        "Cute Ribbon",
-        "Cool Clothes",
-        "Cute Clothes",
-        "Cool Ribbon",
-        "Bow Tie",
-        "Scarf",
-        "Necklace",
-        "Choker",
-        "Frill"
-    ];
-    
-    string[] private headArmor = [
-        "Lion Head",
-        "CAP",
-        "Silk Hat",
-        "Crown",
-        "Angel Ring",
-        "Orange",
-        "Apple",
-        "Hood",
-        "Pot"
-    ];
-    
-    string[] private suffixes = [
-        "of Golden",
-        "of Rainbow",
-        "of Silver",
-        "of Skill",
-        "of Transparency",
-        "of High Performance",
-        "of Playful",
-        "of Exciting",
-        "of Creative",
-        "of Mysterious"
-    ];
-    
-    string[] private namePrefixes = [
-        "Made by Famous",
-        "Made by Genius",
-        "Made by Ultimate",
-        "Made by Supreme"
-    ];
-    
-    string[] private nameSuffixes = [
-        "Tailor",
-        "Robot",
-        "Human",
-        "Cat"
-    ];
+    struct Person {
+        string name;
+        string age;
+        string position;
+        string season;
+        string hometown; 
+        string animation_url; 
+    }
     
     function random(string memory input) internal pure returns (uint256) {
         return uint256(keccak256(abi.encodePacked(input)));
     }
     
-    function getWeapon(uint256 tokenId) public view returns (string memory) {
-        return org_pluck(tokenId, "WEAPON", weapons);
-    }
-    
-    function getBody(uint256 tokenId) public view returns (string memory) {
-        return pluck(tokenId, "BODY", bodyArmor);
-    }
-    
-    function getHead(uint256 tokenId) public view returns (string memory) {
-        return pluck(tokenId, "HEAD", headArmor);
-    }
-    
-    function org_pluck(uint256 tokenId, string memory keyPrefix, string[] memory sourceArray) internal view returns (string memory) {
-        uint256 rand = random(string(abi.encodePacked(keyPrefix, toString(tokenId))));
-        string memory output = sourceArray[rand % sourceArray.length];
-        output = string(abi.encodePacked(output, " ", suffixes[rand % suffixes.length]));
-
+    function getPerson(uint256 tokenId, uint totalCount) public view returns (Person memory) {
+        uint256 rand = random(string(abi.encodePacked("PERSON", toString(tokenId))));
+        uint _index = rand % totalCount;
+        Person memory output;
+        if (_index == 0) {
+            Person memory iniesta = Person("Andres Iniesta", "37", "CMF", "2020-2021", "Kuching", "https://dentou-s3.s3.ap-northeast-1.amazonaws.com/NFT/OTL/iniesta.html");
+            output = iniesta;
+        }
+        // if (_index == 0) {
+        //    Person memory suzuki = Person("Suzuki Yuta", "31", "CMF", "2020-2021", "Kuching", "https://dentou-s3.s3.ap-northeast-1.amazonaws.com/NFT/OTL/suzuki.html");
+        //    output = suzuki;
+        //}
+        //if (_index == 1) {
+        //    Person memory naruse = Person("Naruse Yuta", "25", "LWG", "2020-2021", "Phnom Penh", "https://dentou-s3.s3.ap-northeast-1.amazonaws.com/NFT/OTL/naruse.html");
+        //    output = naruse;
+        //}
+        
         return output;
     }
     
-    function pluck(uint256 tokenId, string memory keyPrefix, string[] memory sourceArray) internal view returns (string memory) {
-        uint256 rand = random(string(abi.encodePacked(keyPrefix, toString(tokenId))));
-        string memory output = sourceArray[rand % sourceArray.length];
+    function getRarelity(uint256 tokenId) public view returns (string memory) {
+        uint256 rand = random(string(abi.encodePacked("RARELITY", toString(tokenId))));
         uint256 greatness = rand % 21;
-        if (greatness > 14) {
-            output = string(abi.encodePacked(output, " ", suffixes[rand % suffixes.length]));
+        string memory output = "";
+        if (greatness >= 0) {
+           output = string(abi.encodePacked('<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: black; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="white" /><text x="10" y="20" class="base">'));
         }
-        if (greatness >= 19) {
-            string[2] memory name;
-            name[0] = namePrefixes[rand % namePrefixes.length];
-            name[1] = nameSuffixes[rand % nameSuffixes.length];
-            if (greatness == 19) {
-                output = string(abi.encodePacked('"', name[0], ' ', name[1], '" ', output));
-            } else {
-                output = string(abi.encodePacked('"', name[0], ' ', name[1], '" ', output, " +1"));
-            }
+        if (greatness > 5) {
+           output = string(abi.encodePacked('<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: black; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="#c0c0c0" /><text x="10" y="20" class="base">'));
+        }
+        if (greatness > 14) {
+           output = string(abi.encodePacked('<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: black; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="#e2d06e" /><text x="10" y="20" class="base">'));
+        }
+        if (greatness > 19) {
+           output = string(abi.encodePacked('<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: #e2d06e; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="black" /><text x="10" y="20" class="base">'));
         }
         return output;
     }
 
     function tokenURI(uint256 tokenId) override public view returns (string memory) {
+        Person memory person = getPerson(tokenId, 1);
+        
         string[17] memory parts;
-        parts[0] = '<svg xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 350 350"><style>.base { fill: white; font-family: serif; font-size: 14px; }</style><rect width="100%" height="100%" fill="black" /><text x="10" y="20" class="base">';
 
-        parts[1] = getWeapon(tokenId);
+        parts[0] = getRarelity(tokenId);
+
+        parts[1] = person.name;
 
         parts[2] = '</text><text x="10" y="40" class="base">';
 
-        parts[3] = getBody(tokenId);
+        parts[3] = person.age;
 
         parts[4] = '</text><text x="10" y="60" class="base">';
 
-        parts[5] = getHead(tokenId);
+        parts[5] = person.position;
 
-        parts[6] = '</text></svg>';
+        parts[6] = '</text><text x="10" y="80" class="base">';
+        
+        parts[7] = person.season;
+        
+        parts[8] = '</text><text x="10" y="100" class="base">';
+        
+        parts[9] = person.hometown;
+
+        parts[10] = '</text></svg>';
 
         string memory output = string(abi.encodePacked(parts[0], parts[1], parts[2], parts[3], parts[4], parts[5], parts[6], parts[7], parts[8]));
         output = string(abi.encodePacked(output, parts[9], parts[10], parts[11], parts[12], parts[13], parts[14], parts[15], parts[16]));
         
-        string memory json = Base64.encode(bytes(string(abi.encodePacked('{"name": "NyaNyaLoot #', toString(tokenId), '", "description": "This is a tribute to the original Loot. NyaNyaLoot is randomized cats garments generated and stored on chain. Stats, images, and other functionality are intentionally omitted for others to interpret. Feel free to use NyaNyaLoot in any way you want.", "image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '"}'))));
+        string memory json = Base64.encode(bytes(string(abi.encodePacked('{"name": "OrenoTeamLoot #', toString(tokenId), '", "description": "OrenoTeamLoot is randomized player  generated and stored on chain. Stats, images, and other functionality are intentionally omitted for others to interpret.", "image": "data:image/svg+xml;base64,', Base64.encode(bytes(output)), '", "animation_url": "', person.animation_url, '"}'))));
         output = string(abi.encodePacked('data:application/json;base64,', json));
 
         return output;
@@ -175,7 +129,7 @@ contract NFT is ERC721Enumerable, ReentrancyGuard, Ownable {
         return string(buffer);
     }
     
-    constructor() ERC721("NyaNyaLoot", "NyaNyaL") Ownable() {}
+    constructor() ERC721("OrenoTeamLoot", "OTL") Ownable() {}
 }
 
 /// [MIT License]

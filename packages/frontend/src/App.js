@@ -2,11 +2,12 @@ import './App.css';
 import { ethers } from "ethers";
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {abi,bytecode} from "../../contracts/artifacts/contracts/NFT.sol/NFT.json";
+import {abi,bytecode} from "../../contracts/artifacts/contracts/HM.sol/HM.json";
 
 window.ethereum.enable();
 const provider = new ethers.providers.Web3Provider(window.ethereum);
-let address = "0x604d6ea0f769e0d48349107a961dae47c8466d43" 
+let address = "0xeb9f48952389b4e0b3523ad1c9137b05b65722bf" 
+// let address = "0xe26cda4a1b976f13e6683e04a7a5067d084d4a90" 
 let total_supply = 0
 function getParam(name, url) {
     if (!url) url = window.location.href;
@@ -38,7 +39,15 @@ const buttonMint = async() => {
   const supply = await contract.totalSupply()
   total_supply = supply._hex.slice(3);
   console.log(total_supply);
-  if (total_supply <= 7) { 
+  if (total_supply <= 100) { 
+    const signer = provider.getSigner();
+    const contract = new ethers.Contract(address, abi, provider);
+    const {hash } = await contract.connect(signer).claim();
+    console.log(contract);
+    console.log(address);
+    const net = await signer.provider.getNetwork();
+    if( net.chainId === 4) console.log("https://rinkeby.etherscan.io/tx/" + hash);
+  } else {
     const signer = provider.getSigner();
     const contract = new ethers.Contract(address, abi, provider);
     const {hash } = await contract.connect(signer).mint(signer.getAddress());
@@ -46,7 +55,6 @@ const buttonMint = async() => {
     console.log(address);
     const net = await signer.provider.getNetwork();
     if( net.chainId === 4) console.log("https://rinkeby.etherscan.io/tx/" + hash);
-  } else {
   };
 };
 const customStyles = {
@@ -64,8 +72,8 @@ function App() {
   return (
     <div className="App">
       <div className="Top">
-        <div className="Title">丹沢山頂到着!!!</div>
-        <div className="Description">山頂の景色を画像で送信し、NFTを獲得せよ</div>
+        <div className="Title">東南アジア日本人サッカー選手応援NFTガチャ</div>
+        <div className="Description">こちらのガチャは、ハーフチェーンジェネラティブNFTとなっています</div>
         <div className="ButtonContainer">
           <button className="Button" id="test2" onClick={buttonMint}>獲得する</button>
         </div>
